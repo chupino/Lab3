@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker & Host Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .container-info {
+            margin-bottom: 20px;
+        }
+        .container-info ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Información del Host</h1>
+    <ul>
+        <li>CPU Count: {{ host_info['cpu_count'] }}</li>
+        <li>Total Memory: {{ host_info['memory_total'] | filesizeformat }}</li>
+        <li>Used Memory: {{ host_info['memory_used'] | filesizeformat }}</li>
+        <li>Total Disk: {{ host_info['disk_total'] | filesizeformat }}</li>
+        <li>Used Disk: {{ host_info['disk_used'] | filesizeformat }}</li>
+    </ul>
+
+    <h1>Información de Contenedores</h1>
+    {% for container in containers_info %}
+    <div class="container-info">
+        <h2>Contenedor: {{ container['name'] }}</h2>
+        <ul>
+            <li>ID: {{ container['id'] }}</li>
+            <li>Status: {{ container['status'] }}</li>
+            <li>Image: {{ container['image'] }}</li>
+            <li>CPU Usage: {{ container['cpu_usage'] | round(2) }}%</li>
+            <li>Memory Usage: {{ container['memory_usage'] | filesizeformat }}</li>
+        </ul>
+    </div>
+    {% endfor %}
+</body>
+</html>
