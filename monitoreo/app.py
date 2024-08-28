@@ -4,10 +4,20 @@ import psutil
 
 app = Flask(_name_)
 
-app.jinja_env.filters['filesizeformat'] = lambda value: f"{value / (1024 * 1024):.2f} MB"
+web = "http://ip172-18-0-2-cr7p5eqim2rg00f203o0-8000.direct.labs.play-with-docker.com/"
 
 # Crear cliente de Docker
 client = docker.from_env()
+
+def check_service(url):
+    try:
+	response = requests.get(url, timeout=5)
+	if response.status_code == 200:
+	   return "Todo fino 👍👌😎"
+	else:
+	   return "Ha caidoooo 💀"
+    except requests.RequestException:
+	return "Ha caidoooo 💀"
 
 def calculate_cpu_usage(stats):
     cpu_stats = stats['cpu_stats']
@@ -48,7 +58,10 @@ def index():
                 'memory_usage': container_stats['memory_stats']['usage']
             })
 
-        return render_template('index.html', host_info=host_info, containers_info=containers_info)
+	service_status = check_service(web)
+
+
+        return render_template('index.html', host_info=host_info, containers_info=containers_info, service_status=service_status)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
