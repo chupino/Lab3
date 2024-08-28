@@ -12,13 +12,13 @@ client = docker.from_env()
 
 def check_service(url):
     try:
-	response = requests.get(url, timeout=5)
-	if response.status_code == 200:
-	   return "Todo fino 👍👌😎"
-	else:
-	   return "Ha caidoooo 💀"
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            return "Todo fino 👍👌😎"
+        else:
+            return "Ha caidoooo 💀"
     except requests.RequestException:
-	return "Ha caidoooo 💀"
+        return "Ha caidoooo 💀"
 
 def calculate_cpu_usage(stats):
     cpu_stats = stats['cpu_stats']
