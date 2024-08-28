@@ -3,7 +3,7 @@ import docker
 import psutil
 import requests
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 web = "http://ip172-18-0-2-cr7p5eqim2rg00f203o0-8000.direct.labs.play-with-docker.com/"
 
@@ -59,13 +59,13 @@ def index():
                 'memory_usage': container_stats['memory_stats']['usage']
             })
 
-	service_status = check_service(web)
-
+        service_status = check_service(web)
 
         return render_template('index.html', host_info=host_info, containers_info=containers_info, service_status=service_status)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
